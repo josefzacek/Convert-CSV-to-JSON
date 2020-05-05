@@ -47,6 +47,37 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/papaparse@5.2.0/papaparse.min.js"></script>
+
+    <script>
+      var jsonData;
+
+      // display formatted json
+      function displayJsonData(jsonData) {
+        var formatedJson = JSON.stringify(jsonData, undefined, 4);
+        $("#formated-json-data pre code").empty().append(formatedJson);
+      }
+
+      // conver csv to json
+      function handleFileSelect(evt) {
+        var file = evt.target.files[0];
+
+        Papa.parse(file, {
+          header: true,
+          dynamicTyping: true,
+          complete: function(results) {
+            jsonData = results;
+            console.log(jsonData)
+            displayJsonData(jsonData.data)
+          }
+        });
+      }
+
+      // when user adds .cvs file
+      $(document).ready(function() {
+        $("#csv-file").change(handleFileSelect);
+      });
+
+    </script>
   </body>
 
 </html>
