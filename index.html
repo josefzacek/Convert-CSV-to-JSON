@@ -77,6 +77,8 @@
 
       // when user adds .cvs file
       $(document).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+
         $("#csv-file").change(handleFileSelect);
       });
 
