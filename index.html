@@ -85,6 +85,22 @@
         $(".copy-to-clipboard-button").removeClass("d-none")
       }
 
+      // copy to CopyToClipboard
+      function CopyToClipboard(containerid) {
+        if (document.selection) {
+          var range = document.body.createTextRange();
+          range.moveToElementText(document.getElementById(containerid));
+          range.select().createTextRange();
+          document.execCommand("copy");
+        } else if (window.getSelection) {
+          var range = document.createRange();
+          range.selectNode(document.getElementById(containerid));
+          window.getSelection().addRange(range);
+          document.execCommand("copy");
+          $(".copy-to-clipboard-button").removeClass("btn-secondary").addClass("btn-success").text("TEXT COPIED")
+        }
+      }
+
       // when user adds .cvs file
       $(document).ready(function() {
         $('[data-toggle="tooltip"]').tooltip();
