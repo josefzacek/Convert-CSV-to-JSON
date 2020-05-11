@@ -110,6 +110,10 @@
         $("#csv-file").click(function() {
           $(".copy-to-clipboard-button").removeClass("btn-success").addClass("d-none btn-secondary").text("COPY")
         })
+
+        $(".copy-to-clipboard-button").click(function() {
+          CopyToClipboard("formated-json-data");
+        })
       });
 
     </script>
