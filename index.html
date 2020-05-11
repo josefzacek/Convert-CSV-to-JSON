@@ -11,6 +11,15 @@
 
     <title>Convert CSV to JSON</title>
     <meta name="author" content="Josef Zacek">
+
+    <style media="screen">
+      .copy-to-clipboard-button {
+        top: 50vh;
+        right: 0;
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
+      }
+    </style>
   </head>
 
   <body>
@@ -40,6 +49,9 @@
       </div>
     </div>
 
+    <button type="button" class="btn btn-secondary position-fixed copy-to-clipboard-button d-none" data-toggle="tooltip" data-placement="top" title="Copy to clipboard">
+      COPY
+    </button>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -70,11 +82,38 @@
             displayJsonData(jsonData.data)
           }
         });
+        $(".copy-to-clipboard-button").removeClass("d-none")
+      }
+
+      // copy to CopyToClipboard
+      function CopyToClipboard(containerid) {
+        if (document.selection) {
+          var range = document.body.createTextRange();
+          range.moveToElementText(document.getElementById(containerid));
+          range.select().createTextRange();
+          document.execCommand("copy");
+        } else if (window.getSelection) {
+          var range = document.createRange();
+          range.selectNode(document.getElementById(containerid));
+          window.getSelection().addRange(range);
+          document.execCommand("copy");
+          $(".copy-to-clipboard-button").removeClass("btn-secondary").addClass("btn-success").text("TEXT COPIED")
+        }
       }
 
       // when user adds .cvs file
       $(document).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+
         $("#csv-file").change(handleFileSelect);
+
+        $("#csv-file").click(function() {
+          $(".copy-to-clipboard-button").removeClass("btn-success").addClass("d-none btn-secondary").text("COPY")
+        })
+
+        $(".copy-to-clipboard-button").click(function() {
+          CopyToClipboard("formated-json-data");
+        })
       });
 
     </script>
