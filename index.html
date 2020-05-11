@@ -106,6 +106,10 @@
         $('[data-toggle="tooltip"]').tooltip();
 
         $("#csv-file").change(handleFileSelect);
+
+        $("#csv-file").click(function() {
+          $(".copy-to-clipboard-button").removeClass("btn-success").addClass("d-none btn-secondary").text("COPY")
+        })
       });
 
     </script>
