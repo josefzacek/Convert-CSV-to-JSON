@@ -62,48 +62,49 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
 
     <script>
-      var jsonData;
-
-      // display formatted json
-      function displayJsonData(jsonData) {
-        var formatedJson = JSON.stringify(jsonData, undefined, 4);
-        $("#formated-json-data pre code").empty().append(formatedJson);
-      }
-
-      // conver csv to json
-      function handleFileSelect(evt) {
-        var file = evt.target.files[0];
-
-        Papa.parse(file, {
-          header: true,
-          dynamicTyping: true,
-          complete: function(results) {
-            jsonData = results;
-            console.log(jsonData)
-            displayJsonData(jsonData.data)
-          }
-        });
-        $(".copy-to-clipboard-button").removeClass("d-none")
-      }
-
-      // copy to CopyToClipboard
-      var clipboard = new ClipboardJS('.copy-to-clipboard-button');
-
-      clipboard.on('success', function(e) {
-        $(".copy-to-clipboard-button").removeClass("btn-secondary").addClass("btn-success").text("TEXT COPIED")
-        console.info('Action:', e.action);
-        console.info('Text:', e.text);
-        console.info('Trigger:', e.trigger);
-        e.clearSelection();
-      });
-
-      clipboard.on('error', function(e) {
-        $(".copy-to-clipboard-button").removeClass("btn-secondary").addClass("btn-danger").text("AN ERROR OCCURRED")
-        console.error('Action:', e.action);
-        console.error('Trigger:', e.trigger);
-      });
-
       $(document).ready(function() {
+        var jsonData;
+
+        // display formatted json
+        function displayJsonData(jsonData) {
+          var formatedJson = JSON.stringify(jsonData, undefined, 4);
+          $("#formated-json-data pre code").empty().append(formatedJson);
+        }
+
+        // conver csv to json
+        function handleFileSelect(evt) {
+          var file = evt.target.files[0];
+
+          Papa.parse(file, {
+            header: true,
+            dynamicTyping: true,
+            complete: function(results) {
+              jsonData = results;
+              console.log(jsonData)
+              displayJsonData(jsonData.data)
+            }
+          });
+          $(".copy-to-clipboard-button").removeClass("d-none")
+        }
+
+        // copy to CopyToClipboard
+        var clipboard = new ClipboardJS('.copy-to-clipboard-button');
+
+        clipboard.on('success', function(e) {
+          $(".copy-to-clipboard-button").removeClass("btn-secondary").addClass("btn-success").text("TEXT COPIED")
+          console.info('Action:', e.action);
+          console.info('Text:', e.text);
+          console.info('Trigger:', e.trigger);
+          e.clearSelection();
+        });
+
+        clipboard.on('error', function(e) {
+          $(".copy-to-clipboard-button").removeClass("btn-secondary").addClass("btn-danger").text("AN ERROR OCCURRED")
+          console.error('Action:', e.action);
+          console.error('Trigger:', e.trigger);
+        });
+
+
         $('[data-toggle="tooltip"]').tooltip();
 
         $("#csv-file").change(handleFileSelect);
