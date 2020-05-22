@@ -86,7 +86,22 @@
         $(".copy-to-clipboard-button").removeClass("d-none")
       }
 
-          $(".copy-to-clipboard-button").removeClass("btn-secondary").addClass("btn-success").text("TEXT COPIED")
+      // copy to CopyToClipboard
+      var clipboard = new ClipboardJS('.copy-to-clipboard-button');
+
+      clipboard.on('success', function(e) {
+        $(".copy-to-clipboard-button").removeClass("btn-secondary").addClass("btn-success").text("TEXT COPIED")
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        e.clearSelection();
+      });
+
+      clipboard.on('error', function(e) {
+        $(".copy-to-clipboard-button").removeClass("btn-secondary").addClass("btn-danger").text("AN ERROR OCCURRED")
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+      });
 
       // when user adds .cvs file
       $(document).ready(function() {
