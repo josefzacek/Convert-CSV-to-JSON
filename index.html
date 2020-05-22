@@ -37,7 +37,7 @@
             <input type="file" id="csv-file" class="form-control-file" name="files" />
           </div>
 
-          <div id="formated-json-data" class="border rounded p-3">
+          <div id="formated-json-data" class="border rounded p-3" contenteditable>
             <pre>
 <code>
   <!-- injected code here -->
@@ -49,7 +49,7 @@
       </div>
     </div>
 
-    <button type="button" class="btn btn-secondary position-fixed copy-to-clipboard-button d-none" data-toggle="tooltip" data-placement="top" title="Copy to clipboard">
+    <button type="button" class="btn btn-secondary position-fixed copy-to-clipboard-button d-none" data-clipboard-target="#formated-json-data" data-toggle="tooltip" data-placement="top" title="Copy to clipboard">
       COPY
     </button>
 
@@ -59,60 +59,58 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/papaparse@5.2.0/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
 
     <script>
-      var jsonData;
-
-      // display formatted json
-      function displayJsonData(jsonData) {
-        var formatedJson = JSON.stringify(jsonData, undefined, 4);
-        $("#formated-json-data pre code").empty().append(formatedJson);
-      }
-
-      // conver csv to json
-      function handleFileSelect(evt) {
-        var file = evt.target.files[0];
-
-        Papa.parse(file, {
-          header: true,
-          dynamicTyping: true,
-          complete: function(results) {
-            jsonData = results;
-            console.log(jsonData)
-            displayJsonData(jsonData.data)
-          }
-        });
-        $(".copy-to-clipboard-button").removeClass("d-none")
-      }
-
-      // copy to CopyToClipboard
-      function CopyToClipboard(containerid) {
-        if (document.selection) {
-          var range = document.body.createTextRange();
-          range.moveToElementText(document.getElementById(containerid));
-          range.select().createTextRange();
-          document.execCommand("copy");
-        } else if (window.getSelection) {
-          var range = document.createRange();
-          range.selectNode(document.getElementById(containerid));
-          window.getSelection().addRange(range);
-          document.execCommand("copy");
-          $(".copy-to-clipboard-button").removeClass("btn-secondary").addClass("btn-success").text("TEXT COPIED")
-        }
-      }
-
-      // when user adds .cvs file
       $(document).ready(function() {
+        var jsonData;
+
+        // display formatted json
+        function displayJsonData(jsonData) {
+          var formatedJson = JSON.stringify(jsonData, undefined, 4);
+          $("#formated-json-data pre code").empty().append(formatedJson);
+        }
+
+        // conver csv to json
+        function handleFileSelect(evt) {
+          var file = evt.target.files[0];
+
+          Papa.parse(file, {
+            header: true,
+            dynamicTyping: true,
+            complete: function(results) {
+              jsonData = results;
+              console.log(jsonData)
+              displayJsonData(jsonData.data)
+            }
+          });
+          $(".copy-to-clipboard-button").removeClass("d-none")
+        }
+
+        // copy to CopyToClipboard
+        var clipboard = new ClipboardJS('.copy-to-clipboard-button');
+
+        clipboard.on('success', function(e) {
+          $(".copy-to-clipboard-button").removeClass("btn-secondary").addClass("btn-success").text("TEXT COPIED")
+          console.info('Action:', e.action);
+          console.info('Text:', e.text);
+          console.info('Trigger:', e.trigger);
+          e.clearSelection();
+        });
+
+        clipboard.on('error', function(e) {
+          $(".copy-to-clipboard-button").removeClass("btn-secondary").addClass("btn-danger").text("AN ERROR OCCURRED")
+          console.error('Action:', e.action);
+          console.error('Trigger:', e.trigger);
+        });
+
+
         $('[data-toggle="tooltip"]').tooltip();
 
         $("#csv-file").change(handleFileSelect);
 
         $("#csv-file").click(function() {
           $(".copy-to-clipboard-button").removeClass("btn-success").addClass("d-none btn-secondary").text("COPY")
-        })
-
-        $(".copy-to-clipboard-button").click(function() {
-          CopyToClipboard("formated-json-data");
         })
       });
 
