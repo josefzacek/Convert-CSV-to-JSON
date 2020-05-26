@@ -13,11 +13,26 @@
     <meta name="author" content="Josef Zacek">
 
     <style media="screen">
+      body {
+        background-image: url(images/blue-background.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 100vh;
+      }
+
+      input[type="file"] {
+          display: none;
+      }
+
       .copy-to-clipboard-button {
         top: 50vh;
         right: 0;
         border-bottom-right-radius: 0;
         border-top-right-radius: 0;
+      }
+
+      #formated-json-data {
+        min-height: 40vh;
       }
     </style>
   </head>
@@ -25,19 +40,19 @@
   <body>
 
     <div class="container my-5">
-      <div class="row">
+      <div class="row pt-5">
         <div class="col">
 
-          <h1>Convert CSV to JSON</h1>
+          <h1 class="text-light font-weight-bold">Convert CSV to JSON</h1>
 
-          <p>Simply select .csv file and get it converted to JSON</p>
+          <p class="text-light">Simply select .csv file and get it converted to JSON</p>
 
-          <div class="form-group">
-            <label for="csv-file">Please select .csv file</label>
+          <div class="form-group text-light">
+            <label for="csv-file" class="btn rounded bg-light text-dark">Select .csv file</label>
             <input type="file" id="csv-file" class="form-control-file" name="files" />
           </div>
 
-          <div id="formated-json-data" class="border rounded p-3" contenteditable>
+          <div id="formated-json-data" class="border rounded p-3 bg-light" contenteditable>
             <pre>
 <code>
   <!-- injected code here -->
@@ -49,7 +64,7 @@
       </div>
     </div>
 
-    <button type="button" class="btn btn-secondary position-fixed copy-to-clipboard-button d-none" data-clipboard-target="#formated-json-data" data-toggle="tooltip" data-placement="top" title="Copy to clipboard">
+    <button type="button" class="btn btn-primary position-fixed copy-to-clipboard-button d-none" data-clipboard-target="#formated-json-data" data-toggle="tooltip" data-placement="top" title="Copy to clipboard">
       COPY
     </button>
 
@@ -91,7 +106,7 @@
         var clipboard = new ClipboardJS('.copy-to-clipboard-button');
 
         clipboard.on('success', function(e) {
-          $(".copy-to-clipboard-button").removeClass("btn-secondary").addClass("btn-success").text("TEXT COPIED")
+          $(".copy-to-clipboard-button").removeClass("btn-primary").addClass("btn-success").text("TEXT COPIED")
           console.info('Action:', e.action);
           console.info('Text:', e.text);
           console.info('Trigger:', e.trigger);
@@ -99,7 +114,7 @@
         });
 
         clipboard.on('error', function(e) {
-          $(".copy-to-clipboard-button").removeClass("btn-secondary").addClass("btn-danger").text("AN ERROR OCCURRED")
+          $(".copy-to-clipboard-button").removeClass("btn-primary").addClass("btn-danger").text("AN ERROR OCCURRED")
           console.error('Action:', e.action);
           console.error('Trigger:', e.trigger);
         });
@@ -110,7 +125,7 @@
         $("#csv-file").change(handleFileSelect);
 
         $("#csv-file").click(function() {
-          $(".copy-to-clipboard-button").removeClass("btn-success").addClass("d-none btn-secondary").text("COPY")
+          $(".copy-to-clipboard-button").removeClass("btn-success").addClass("d-none btn-primary").text("COPY")
         })
       });
 
