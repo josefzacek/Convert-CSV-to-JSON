@@ -64,7 +64,7 @@
       </div>
     </div>
 
-    <button type="button" class="btn btn-secondary position-fixed copy-to-clipboard-button d-none" data-clipboard-target="#formated-json-data" data-toggle="tooltip" data-placement="top" title="Copy to clipboard">
+    <button type="button" class="btn btn-primary position-fixed copy-to-clipboard-button d-none" data-clipboard-target="#formated-json-data" data-toggle="tooltip" data-placement="top" title="Copy to clipboard">
       COPY
     </button>
 
@@ -106,7 +106,7 @@
         var clipboard = new ClipboardJS('.copy-to-clipboard-button');
 
         clipboard.on('success', function(e) {
-          $(".copy-to-clipboard-button").removeClass("btn-secondary").addClass("btn-success").text("TEXT COPIED")
+          $(".copy-to-clipboard-button").removeClass("btn-primary").addClass("btn-success").text("TEXT COPIED")
           console.info('Action:', e.action);
           console.info('Text:', e.text);
           console.info('Trigger:', e.trigger);
@@ -114,7 +114,7 @@
         });
 
         clipboard.on('error', function(e) {
-          $(".copy-to-clipboard-button").removeClass("btn-secondary").addClass("btn-danger").text("AN ERROR OCCURRED")
+          $(".copy-to-clipboard-button").removeClass("btn-primary").addClass("btn-danger").text("AN ERROR OCCURRED")
           console.error('Action:', e.action);
           console.error('Trigger:', e.trigger);
         });
@@ -125,7 +125,7 @@
         $("#csv-file").change(handleFileSelect);
 
         $("#csv-file").click(function() {
-          $(".copy-to-clipboard-button").removeClass("btn-success").addClass("d-none btn-secondary").text("COPY")
+          $(".copy-to-clipboard-button").removeClass("btn-success").addClass("d-none btn-primary").text("COPY")
         })
       });
 
