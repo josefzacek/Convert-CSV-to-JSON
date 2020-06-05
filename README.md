@@ -1,6 +1,9 @@
 # Convert CSV to JSON
-Convert local .csv file to JSON using Papa Parse
+Convert local .csv file to JSON using Papa Parse and easily copy to clipboard using clipboard.js
 
+Live version available at http://csvtojson.josefzacek.com/
+
+Tool used:
 
 https://getbootstrap.com - Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.
 
